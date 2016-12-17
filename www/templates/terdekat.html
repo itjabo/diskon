@@ -1,0 +1,11 @@
+<ion-view title="Terdekat" id="page2">
+  <ion-content padding="true" scroll="false" class="has-header">
+    <div ng-app="app">
+
+        <ng-map center="{{myData[0].latitude}}, {{myData[0].longitude}}" zoom-control="false" pan-control="false" map-type-control="false">
+            <marker title="{{x.nama_merchant}}" ng-repeat="x in myData" position="[{{x.latitude}}, {{x.longitude}}]" ></marker>
+        </ng-map>
+
+    </div>
+  </ion-content>
+</ion-view>

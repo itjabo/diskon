@@ -1,0 +1,27 @@
+<ion-view title="Detail Merchant" id="page5">
+  <ion-content padding="true" class="has-header">
+    <h3 id="detailMerchant-heading5" style="color:#000000;">{{myData[0].nama_merchant}}</h3>
+    <button id="detailMerchant-button13" class="button button-assertive  button-block">Promo</button>
+    <div>
+      <img src="img/MVFDDpF5Tkaj3O5LBCtr_sate-senayan.jpg" style="display: block; width: 100%; height: 100%; margin-left: auto; margin-right: auto;">
+    </div>
+    <div id="detailMerchant-markdown2" class="show-list-numbers-and-dots">
+      <p style="color:#000000;">{{myData[0].alamat}}</p>
+    </div>
+    <div ng-app="app">
+      <ng-map center="{{myData[0].latitude}}, {{myData[0].longitude}}" zoom-control="false" pan-control="false" map-type-control="false">
+          <marker position="{{myData[0].latitude}}, {{myData[0].longitude}}" title="{{myData[0].nama_merchant}}"></marker>
+      </ng-map>
+    </div>
+    <div id="detailMerchant-button-bar2" class="button-bar"></div>
+    <div id="detailMerchant-button-bar3" class="button-bar"></div>
+    <div id="detailMerchant-button-bar4" class="button-bar">
+      <button id="detailMerchant-button22" class="button button-assertive  button-block icon-left ion-heart">Like</button>
+      <button id="detailMerchant-button23" class="button button-assertive  button-block icon-right ion-android-share">Share</button>
+    </div>
+    <div id="detailMerchant-button-bar1" class="button-bar">
+      <a href="tel:00000000" id="detailMerchant-button7" style="color:#FFFFFF;" class="button button-assertive  button-block icon-left ion-android-call">call</a>
+      <button id="detailMerchant-button8" class="button button-assertive  button-block icon-right ion-ios-navigate">Navigate</button>
+    </div>
+  </ion-content>
+</ion-view>
