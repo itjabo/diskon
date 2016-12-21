@@ -8,23 +8,25 @@
     </ion-nav-bar>
     <ion-nav-view name="side-menu21"></ion-nav-view>
   </ion-side-menu-content>
-  <ion-side-menu side="left" id="side-menu21">
-    <ion-header-bar class="bar-assertive">
-      <div class="title">Menu</div>
-    </ion-header-bar>
-    <ion-content padding="false" class="side-menu-left has-header ">
+  <ion-side-menu side="left" id="side-menu21" style="background-color:#EF473A;">
+    <ion-content padding="false" style="top:0px !important;" class="side-menu-left ">
+      <div class="spacer" style="width: 268px; height: 29px;"></div>
+      <div class="profile-image">
+        <img src="img/K4CLGiCCT7uVpObymTN8_tseldigilife.png" style="display: block; width: 40%; height: auto; margin-left: auto; margin-right: auto;">
+      </div>
+      <div class="spacer" style="width: 268px; height: 29px;"></div>
       <ion-list id="menu-list1">
-        <ion-item class="item-icon-right" id="menu-list-item1" ui-sref="menu.beranda" menu-close="">Beranda
+        <ion-item class="item-icon-right  side-menu-item" id="menu-list-item1" ui-sref="menu.beranda" menu-close="" active-page-highlight="">Beranda
           <i class="icon ion-ios-home-outline"></i>
         </ion-item>
-        <ion-item class="item-icon-right" id="menu-list-item2" ui-sref="menu.terdekat" menu-close="">Terdekat
+        <ion-item class="item-icon-right  side-menu-item" id="menu-list-item2" ui-sref="menu.terdekat" menu-close="" active-page-highlight="">Terdekat
           <i class="icon ion-ios-location-outline"></i>
         </ion-item>
-        <ion-item class="item-icon-right" id="menu-list-item3" ui-sref="menu.menuKategori" menu-close="">Kategori
+        <ion-item class="item-icon-right  side-menu-item" id="menu-list-item3" ui-sref="menu.menuKategori" menu-close="" active-page-highlight="">Kategori
           <i class="icon ion-ios-list-outline"></i>
         </ion-item>
-        <ion-item class="item-icon-right" id="menu-list-item17" ui-sref="menu.menuKategori" menu-close="">Favorite
-          <i class="icon ion-android-favorite-outline"></i>
+        <ion-item class="item-icon-right  side-menu-item" id="menu-list-item17" ui-sref="menu.favorite" menu-close="" active-page-highlight="">Favorite
+          <i class="icon ion-ios-heart-outline"></i>
         </ion-item>
       </ion-list>
     </ion-content>

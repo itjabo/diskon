@@ -1,7 +1,7 @@
 <ion-view title="Kuliner" id="page8">
   <ion-content padding="true" class="has-header">
     <ion-list id="kuliner-list7">
-      <ion-item class="item-thumbnail-left" id="kuliner-list-item19" ui-sref="menu.detailMerchant" ng-repeat="x in myData">
+      <ion-item class="item-thumbnail-left" id="kuliner-list-item19" ng-repeat="x in myData" ng-click="Link(x.kode)">
         <img src="img/qQophN8eR2mJcENUyjWx_hot1.jpg">
         <h2>{{x.nama_merchant}}</h2>
         <p style="white-space:normal;">{{x.alamat}}</p>

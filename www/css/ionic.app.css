@@ -9807,3 +9807,28 @@ ui-gmap-google-map {
     height: 100%; }
     ui-gmap-google-map .angular-google-map .angular-google-map-container {
       height: 100%; }
+
+.profile-image img {
+  border-radius: 50%;
+  margin: 10px;
+  border: 4px solid rgba(255, 255, 255, 0.4); }
+
+.side-menu-item {
+  background: none;
+  color: white; }
+  .side-menu-item .item-content {
+    background: none; }
+    .side-menu-item .item-content.activated {
+      background: rgba(255, 255, 255, 0.4); }
+  .side-menu-item.active-page-highlight .item-content {
+    background: rgba(255, 255, 255, 0.4); }
+
+.center-menu-item {
+  background: #EF473A;
+  color: white; }
+  .center-menu-item .item-content {
+    background: #EF473A; }
+    .center-menu-item .item-content.activated {
+      background: rgba(255, 255, 255, 0.4); }
+  .center-menu-item.active-page-highlight .item-content {
+    background: rgba(255, 255, 255, 0.4); }

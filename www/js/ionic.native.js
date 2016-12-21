@@ -444,6 +444,9 @@ var Observable_1 = require('rxjs/Observable');
  *  }
  * )
  * ```
+ * @interfaces
+ * ThreeDeeTouchQuickAction
+ * ThreeDeeTouchForceTouch
  */
 var ThreeDeeTouch = (function () {
     function ThreeDeeTouch() {
@@ -539,7 +542,7 @@ var plugin_1 = require('./plugin');
 /**
  * @name Action Sheet
  * @description
- * The ActionSheet plugin shows a native list of options the user can choose from.
+ * The ActionSheet plugin shows a native list of options the user can pick.
  *
  * Requires Cordova plugin: `cordova-plugin-actionsheet`. For more info, please see the [ActionSheet plugin docs](https://github.com/EddyVerbruggen/cordova-plugin-actionsheet).
  *
@@ -605,71 +608,69 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var plugin_1 = require('./plugin');
 /**
  * @name AdMob
- * @description Plugin for Google Ads, including AdMob / DFP (doubleclick for publisher) and mediations to other Ad networks.
+ * @description
+ * Plugin for Google Ads, including AdMob / DFP (doubleclick for publisher) and mediations to other Ad networks.
  * @usage
  * ```typescript
  * import { AdMob } from 'ionic-native';
  *
  * ionViewDidLoad() {
- *   AdMob.onBannerDismiss()
- *     .subscribe(() => { console.log('User returned from interstitial'); });
+ *   AdMob.onAdDismiss()
+ *     .subscribe(() => { console.log('User dismissed ad'); });
  * }
  *
- * public onClick() {
+ * onClick() {
  *   AdMob.prepareInterstitial('YOUR_ADID')
  *     .then(() => { AdMob.showInterstitial(); });
  * }
  *
  * ```
- * Please refer the the plugin's original repository for detailed usage.
+ *
+ * @interfaces
+ * AdMobOptions
+ * AdMobAdExtras
  */
 var AdMob = (function () {
     function AdMob() {
     }
-    // Static Methods
     /**
-     *
-     * @param adIdOrOptions
+     * Create a banner
+     * @param adIdOrOptions {string | AdMobOptions} Ad ID or Options
      * @returns {Promise<any>} Returns a Promise that resolves when the banner is created
      */
     AdMob.createBanner = function (adIdOrOptions) { return; };
     /**
-     *
+     * Destroy the banner, remove it from screen.
      */
     AdMob.removeBanner = function () { };
     /**
-     *
-     * @param position
+     * Show banner at position
+     * @param position {number} Position. Use `AdMob.AD_POSITION` to set values.
      */
     AdMob.showBanner = function (position) { };
     /**
-     *
-     * @param x
-     * @param y
+     * Show banner at custom position
+     * @param x {number} Offset from screen left.
+     * @param y {number} Offset from screen top.
      */
     AdMob.showBannerAtXY = function (x, y) { };
     /**
-     *
+     * Hide the banner, remove it from screen, but can show it later
      */
     AdMob.hideBanner = function () { };
     /**
-     *
-     * @param adIdOrOptions
+     * Prepare interstitial banner
+     * @param adIdOrOptions {string | AdMobOptions} Ad ID or Options
      * @returns {Promise<any>} Returns a Promise that resolves when interstitial is prepared
      */
     AdMob.prepareInterstitial = function (adIdOrOptions) { return; };
     /**
-     * Show interstitial
+     * Show interstitial ad when it's ready
      */
     AdMob.showInterstitial = function () { };
     /**
-     *
-     * @returns {Promise<any>} Returns a Promise that resolves when the interstitial is ready
-     */
-    AdMob.isInterstitialReady = function () { return; };
-    /**
      * Prepare a reward video ad
-     * @param adIdOrOptions
+     * @param adIdOrOptions {string | AdMobOptions} Ad ID or Options
      * @returns {Promise<any>} Returns a Promise that resolves when the ad is prepared
      */
     AdMob.prepareRewardVideoAd = function (adIdOrOptions) { return; };
@@ -679,7 +680,7 @@ var AdMob = (function () {
     AdMob.showRewardVideoAd = function () { };
     /**
      * Sets the values for configuration and targeting
-     * @param options Returns a promise that resolves if the options are set successfully
+     * @param options {AdMobOptions} Options
      * @returns {Promise<any>} Returns a Promise that resolves when the options have been set
      */
     AdMob.setOptions = function (options) { return; };
@@ -688,17 +689,47 @@ var AdMob = (function () {
      * @returns {Promise<any>} Returns a promise that resolves with the ad settings
      */
     AdMob.getAdSettings = function () { return; };
-    // Events
-    AdMob.onBannerFailedToReceive = function () { return; };
-    AdMob.onBannerReceive = function () { return; };
-    AdMob.onBannerPresent = function () { return; };
-    AdMob.onBannerLeaveApp = function () { return; };
-    AdMob.onBannerDismiss = function () { return; };
-    AdMob.onInterstitialFailedToReceive = function () { return; };
-    AdMob.onInterstitialReceive = function () { return; };
-    AdMob.onInterstitialPresent = function () { return; };
-    AdMob.onInterstitialLeaveApp = function () { return; };
-    AdMob.onInterstitialDismiss = function () { return; };
+    /**
+     * Triggered when failed to receive Ad
+     * @returns {Observable<any>}
+     */
+    AdMob.onAdFailLoad = function () { return; };
+    /**
+     * Triggered when Ad received
+     * @returns {Observable<any>}
+     */
+    AdMob.onAdLoaded = function () { return; };
+    /**
+     * Triggered when Ad will be showed on screen
+     * @returns {Observable<any>}
+     */
+    AdMob.onAdPresent = function () { return; };
+    /**
+     * Triggered when user click the Ad, and will jump out of your App
+     * @returns {Observable<any>}
+     */
+    AdMob.onAdLeaveApp = function () { return; };
+    /**
+     * Triggered when dismiss the Ad and back to your App
+     * @returns {Observable<any>}
+     */
+    AdMob.onAdDismiss = function () { return; };
+    /**
+     * @private
+     */
+    AdMob.AD_POSITION = {
+        NO_CHANGE: 0,
+        TOP_LEFT: 1,
+        TOP_CENTER: 2,
+        TOP_RIGHT: 3,
+        LEFT: 4,
+        CENTER: 5,
+        RIGHT: 6,
+        BOTTOM_LEFT: 7,
+        BOTTOM_CENTER: 8,
+        BOTTOM_RIGHT: 9,
+        POS_XY: 10
+    };
     __decorate([
         plugin_1.Cordova()
     ], AdMob, "createBanner", null);
@@ -732,9 +763,6 @@ var AdMob = (function () {
     ], AdMob, "showInterstitial", null);
     __decorate([
         plugin_1.Cordova()
-    ], AdMob, "isInterstitialReady", null);
-    __decorate([
-        plugin_1.Cordova()
     ], AdMob, "prepareRewardVideoAd", null);
     __decorate([
         plugin_1.Cordova({
@@ -750,63 +778,33 @@ var AdMob = (function () {
     __decorate([
         plugin_1.Cordova({
             eventObservable: true,
-            event: 'onBannerFailedToReceive'
+            event: 'onAdFailLoad'
         })
-    ], AdMob, "onBannerFailedToReceive", null);
+    ], AdMob, "onAdFailLoad", null);
     __decorate([
         plugin_1.Cordova({
             eventObservable: true,
-            event: 'onBannerReceive'
+            event: 'onAdLoaded'
         })
-    ], AdMob, "onBannerReceive", null);
+    ], AdMob, "onAdLoaded", null);
     __decorate([
         plugin_1.Cordova({
             eventObservable: true,
-            event: 'onBannerPresent'
+            event: 'onAdPresent'
         })
-    ], AdMob, "onBannerPresent", null);
+    ], AdMob, "onAdPresent", null);
     __decorate([
         plugin_1.Cordova({
             eventObservable: true,
-            event: 'onBannerLeaveApp'
+            event: 'onAdLeaveApp'
         })
-    ], AdMob, "onBannerLeaveApp", null);
+    ], AdMob, "onAdLeaveApp", null);
     __decorate([
         plugin_1.Cordova({
             eventObservable: true,
-            event: 'onBannerDismiss'
+            event: 'onAdDismiss'
         })
-    ], AdMob, "onBannerDismiss", null);
-    __decorate([
-        plugin_1.Cordova({
-            eventObservable: true,
-            event: 'onInterstitialFailedToReceive'
-        })
-    ], AdMob, "onInterstitialFailedToReceive", null);
-    __decorate([
-        plugin_1.Cordova({
-            eventObservable: true,
-            event: 'onInterstitialReceive'
-        })
-    ], AdMob, "onInterstitialReceive", null);
-    __decorate([
-        plugin_1.Cordova({
-            eventObservable: true,
-            event: 'onInterstitialPresent'
-        })
-    ], AdMob, "onInterstitialPresent", null);
-    __decorate([
-        plugin_1.Cordova({
-            eventObservable: true,
-            event: 'onInterstitialLeaveApp'
-        })
-    ], AdMob, "onInterstitialLeaveApp", null);
-    __decorate([
-        plugin_1.Cordova({
-            eventObservable: true,
-            event: 'onInterstitialDismiss'
-        })
-    ], AdMob, "onInterstitialDismiss", null);
+    ], AdMob, "onAdDismiss", null);
     AdMob = __decorate([
         plugin_1.Plugin({
             pluginName: 'AdMob',
@@ -858,15 +856,18 @@ var plugin_1 = require('./plugin');
  *   })
  *   .catch(error => console.error(error));
  * ```
+ * @interfaces
+ * AndroidFingerprintAuthOptions
  */
 var AndroidFingerprintAuth = (function () {
     function AndroidFingerprintAuth() {
     }
     /**
      * Opens a native dialog fragment to use the device hardware fingerprint scanner to authenticate against fingerprints registered for the device.
-     * @param params {any}
+     * @param options {AndroidFingerprintAuthOptions} Options
+     * @returns {Promise<any>}
      */
-    AndroidFingerprintAuth.show = function (params) { return; };
+    AndroidFingerprintAuth.show = function (options) { return; };
     /**
      * Check if service is available
      * @returns {Promise<any>} Returns a Promise that resolves if fingerprint auth is available on the device
@@ -908,12 +909,12 @@ var plugin_1 = require('./plugin');
  *
  * @usage
  * ```typescript
- * import { AppAvailability } from 'ionic-native';
+ * import { AppAvailability, Device } from 'ionic-native';
  *
  *
  * let app;
  *
- * if (device.platform === 'iOS') {
+ * if (Device.platform === 'iOS') {
  *   app = 'twitter://';
  * } else if (device.platform === 'Android') {
  *   app = 'com.twitter.android';
@@ -979,26 +980,11 @@ var plugin_1 = require('./plugin');
  * AppRate.promptForRating(false);
  * ```
  *
- * @advanced
+ * @interfaces
+ * AppRatePreferences
+ * AppRateStoreAppUrls
+ * AppRateCallbacks
  *
- * Rating dialog preferences
- *
- * | Option                       | Type       | Default | Description                                                                            |
- * |------------------------------|------------|---------|----------------------------------------------------------------------------------------|
- * | useLanguage                  | `String`   | null    | custom BCP 47 language tag                                                             |
- * | displayAppName               | `String`   | ''      | custom application title                                                               |
- * | promptAgainForEachNewVersion | `Boolean`  | true    | show dialog again when application version will be updated                             |
- * | usesUntilPrompt              | `Integer`  | 3       | count of runs of application before dialog will be displayed                           |
- * | openStoreInApp               | `Boolean`  | false   | leave app or no when application page opened in app store (now supported only for iOS) |
- * | useCustomRateDialog          | `Boolean`  | false   | use custom view for rate dialog                                                        |
- * | callbacks.onButtonClicked    | `Function` | null    | call back function. called when user clicked on rate-dialog buttons                    |
- * | callbacks.onRateDialogShow   | `Function` | null    | call back function. called when rate-dialog showing                                    |
- * | storeAppURL.ios              | `String`   | null    | application id in AppStore                                                             |
- * | storeAppURL.android          | `String`   | null    | application URL in GooglePlay                                                          |
- * | storeAppURL.blackberry       | `String`   | null    | application URL in AppWorld                                                            |
- * | storeAppURL.windows8         | `String`   | null    | application URL in WindowsStore                                                        |
- * | customLocale                 | `Object`   | null    | custom locale object                                                                   |
-
  */
 var AppRate = (function () {
     function AppRate() {
@@ -1158,8 +1144,8 @@ var plugin_1 = require('./plugin');
  *
  * ```
  * @interfaces
- * Location
- * Config
+ * BackgroundGeolocationResponse
+ * BackgroundGeolocationConfig
  */
 var BackgroundGeolocation = (function () {
     function BackgroundGeolocation() {
@@ -1457,19 +1443,9 @@ var plugin_1 = require('./plugin');
 *
 * BackgroundMode.enable();
 * ```
-*
-* @advanced
-*
-* Configuration options
-*
-* | Property | Type      | Description                                                                  |
-* |----------|-----------|------------------------------------------------------------------------------|
-* | title    | `string`  | Title of the background task. Optional                                       |
-* | ticker   | `string`  | The text that scrolls itself on the statusbar. Optional                      |
-* | text     | `string`  | Description of the background task. Optional                                 |
-* | silent   | `boolean` | If the plugin will display a notification or not. Default is false. Optional |
-* | resume   | `boolean` | Bring the app into the foreground if the notification is tapped. Optional    |
-*
+ *
+ * @interfaces
+ * BackgroundModeConfiguration
 */
 var BackgroundMode = (function () {
     function BackgroundMode() {
@@ -1698,13 +1674,15 @@ var plugin_1 = require('./plugin');
  * 	// An error occurred
  * });
  * ```
+ * @interfaces
+ * BarcodeScannerOptions
  */
 var BarcodeScanner = (function () {
     function BarcodeScanner() {
     }
     /**
      * Open the barcode scanner.
-     * @param options {Object} Optional options to pass to the scanner
+     * @param options {BarcodeScannerOptions} Optional options to pass to the scanner
      * @returns {Promise<any>} Returns a Promise that resolves with scanner data, or rejects with an error.
      */
     BarcodeScanner.scan = function (options) { return; };
@@ -1830,23 +1808,25 @@ var plugin_1 = require('./plugin');
  * subscription.unsubscribe();
  *
  * ```
+ * @interfaces
+ * BatteryStatusResponse
  */
 var BatteryStatus = (function () {
     function BatteryStatus() {
     }
     /**
      * Watch the change in battery level
-     * @returns {Observable<StatusObject>} Returns an observable that pushes a status object
+     * @returns {Observable<BatteryStatusResponse>} Returns an observable that pushes a status object
      */
     BatteryStatus.onChange = function () { return; };
     /**
      * Watch when the battery level goes low
-     * @returns {Observable<StatusObject>} Returns an observable that pushes a status object
+     * @returns {Observable<BatteryStatusResponse>} Returns an observable that pushes a status object
      */
     BatteryStatus.onLow = function () { return; };
     /**
      * Watch when the battery level goes to critial
-     * @returns {Observable<StatusObject>} Returns an observable that pushes a status object
+     * @returns {Observable<BatteryStatusResponse>} Returns an observable that pushes a status object
      */
     BatteryStatus.onCritical = function () { return; };
     __decorate([
@@ -2666,7 +2646,8 @@ var plugin_1 = require('./plugin');
  *   (err) => { console.log(err); }
  * );
  * ```
- *
+ * @interfaces
+ * CalendarOptions
  */
 var Calendar = (function () {
     function Calendar() {
@@ -2724,28 +2705,9 @@ var Calendar = (function () {
     /**
      * Returns the default calendar options.
      *
-     * @return Returns an object with the default calendar options:
-     *   firstReminderMinutes: 60,
-     *   secondReminderMinutes: null,
-     *   recurrence: null, // options are: 'daily', 'weekly', 'monthly', 'yearly'
-     *   recurrenceInterval: 1, // only used when recurrence is set
-     *   recurrenceEndDate: null,
-     *   calendarName: null,
-     *   calendarId: null,
-     *   url: null
+     * @return {CalendarOptions} Returns an object with the default calendar options
      */
-    Calendar.getCalendarOptions = function () {
-        return {
-            firstReminderMinutes: 60,
-            secondReminderMinutes: null,
-            recurrence: null,
-            recurrenceInterval: 1,
-            recurrenceEndDate: null,
-            calendarName: null,
-            calendarId: null,
-            url: null
-        };
-    };
+    Calendar.getCalendarOptions = function () { return; };
     /**
      * Silently create an event.
      * @param {string} [title]  The event title
@@ -2952,25 +2914,35 @@ var Calendar = (function () {
         plugin_1.Cordova()
     ], Calendar, "findEventWithOptions", null);
     __decorate([
-        plugin_1.Cordova()
+        plugin_1.Cordova({
+            platforms: ['Android']
+        })
     ], Calendar, "listEventsInRange", null);
     __decorate([
         plugin_1.Cordova()
     ], Calendar, "listCalendars", null);
     __decorate([
-        plugin_1.Cordova()
+        plugin_1.Cordova({
+            platforms: ['iOS']
+        })
     ], Calendar, "findAllEventsInNamedCalendar", null);
     __decorate([
-        plugin_1.Cordova()
+        plugin_1.Cordova({
+            platforms: ['iOS']
+        })
     ], Calendar, "modifyEvent", null);
     __decorate([
-        plugin_1.Cordova()
+        plugin_1.Cordova({
+            platforms: ['iOS']
+        })
     ], Calendar, "modifyEventWithOptions", null);
     __decorate([
         plugin_1.Cordova()
     ], Calendar, "deleteEvent", null);
     __decorate([
-        plugin_1.Cordova()
+        plugin_1.Cordova({
+            platforms: ['iOS']
+        })
     ], Calendar, "deleteEventFromNamedCalendar", null);
     __decorate([
         plugin_1.Cordova()
@@ -3105,6 +3077,9 @@ var plugin_1 = require('./plugin');
  *
  * ```
  *
+ * @interfaces
+ * CameraPreviewRect
+ * CameraPreviewSize
  */
 var CameraPreview = (function () {
     function CameraPreview() {
@@ -3382,6 +3357,9 @@ var plugin_1 = require('./plugin');
  *     }
  *   );
  * ```
+ * @interfaces
+ * CardIOOptions
+ * CardIOResponse
  */
 var CardIO = (function () {
     function CardIO() {
@@ -3416,7 +3394,7 @@ var CardIO = (function () {
     CardIO = __decorate([
         plugin_1.Plugin({
             pluginName: 'CardIO',
-            plugin: 'https://github.com/card-io/card.io-Cordova-Plugin',
+            plugin: 'card.io.cordova.mobilesdk',
             pluginRef: 'CardIO',
             repo: 'https://github.com/card-io/card.io-Cordova-Plugin',
             platforms: ['iOS', 'Android']
@@ -3862,10 +3840,10 @@ exports.ContactFindOptions = ContactFindOptions;
  * @usage
  *
  * ```typescript
- * import { Contact } from 'ionic-native';
+ * import { Contacts, Contact, ContactField, ContactName } from 'ionic-native';
  *
  *
- * let contact = new Contact();
+ * let contact: Contact = Contacts.create();
  *
  * contact.name = new ContactName(null, 'Smith', 'John');
  * contact.phoneNumbers = [new ContactField('mobile', '6471234567')];
@@ -3896,16 +3874,8 @@ var Contacts = (function () {
     };
     /**
      * Search for contacts in the Contacts list.
-     * @param fields {ContactFieldType[]}  Contact fields to be used as a search qualifier.
-     *  A zero-length contactFields parameter is invalid and results in ContactError.INVALID_ARGUMENT_ERROR.
-     *  A contactFields value of "*" searches all contact fields.
-     *
-     * @param options {IContactFindOptions} the options to query with:
-     *   filter: The search string used to find navigator.contacts. (string) (Default: "")
-     *   multiple: Determines if the find operation returns multiple navigator.contacts. (Boolean) (Default: false)
-     *   desiredFields: Contact fields to be returned back. If specified, the resulting Contact object only features values for these fields. (DOMString[]) [Optional]
-     *   hasPhoneNumber(Android only): Filters the search to only return contacts with a phone number informed. (Boolean) (Default: false)
-     *
+     * @param fields {ContactFieldType[]}  Contact fields to be used as a search qualifier
+     * @param options {IContactFindOptions} Optional options for the query
      * @returns {Promise<Contact[]>} Returns a Promise that resolves with the search results (an array of Contact objects)
      */
     Contacts.find = function (fields, options) {
@@ -4195,11 +4165,22 @@ var plugin_1 = require('./plugin');
  * Deeplinks.routeWithNavController(this.navController, {
     '/about-us': AboutPage,
     '/products/:productId': ProductPage
-  });
+  }).subscribe((match) => {
+      // match.$route - the route we matched, which is the matched entry from the arguments to route()
+      // match.$args - the args passed in the link
+      // match.$link - the full link data
+      console.log('Successfully matched route', match);
+    }, (nomatch) => {
+      // nomatch.$link - the full link data
+      console.error('Got a deeplink that didn\'t match', nomatch);
+    });
  * ```
  *
  * See the [Ionic 2 Deeplinks Demo](https://github.com/driftyco/ionic2-deeplinks-demo/blob/master/app/app.ts) for an example of how to
  * retrieve the `NavController` reference at runtime.
+ *
+ * @interfaces
+ * DeeplinkMatch
  */
 var Deeplinks = (function () {
     function Deeplinks() {
@@ -4483,19 +4464,22 @@ var plugin_1 = require('./plugin');
  * subscription.unsubscribe();
  *
  * ```
+ * @interfaces
+ * DeviceMotionAccelerationData
+ * DeviceMotionAccelerometerOptions
  */
 var DeviceMotion = (function () {
     function DeviceMotion() {
     }
     /**
      * Get the current acceleration along the x, y, and z axes.
-     * @returns {Promise<AccelerationData>} Returns object with x, y, z, and timestamp properties
+     * @returns {Promise<DeviceMotionAccelerationData>} Returns object with x, y, z, and timestamp properties
      */
     DeviceMotion.getCurrentAcceleration = function () { return; };
     /**
      * Watch the device acceleration. Clear the watch by unsubscribing from the observable.
      * @param {AccelerometerOptions} options list of options for the accelerometer.
-     * @returns {Observable<AccelerationData>} Observable returns an observable that you can subscribe to
+     * @returns {Observable<DeviceMotionAccelerationData>} Observable returns an observable that you can subscribe to
      */
     DeviceMotion.watchAcceleration = function (options) { return; };
     __decorate([
@@ -4554,21 +4538,24 @@ var plugin_1 = require('./plugin');
  * // Stop watching heading change
  * subscription.unsubscribe();
  * ```
+ * @interfaces
+ * DeviceOrientationCompassOptions
+ * DeviceOrientationCompassHeading
  */
 var DeviceOrientation = (function () {
     function DeviceOrientation() {
     }
     /**
      * Get the current compass heading.
-     * @returns {Promise<CompassHeading>}
+     * @returns {Promise<DeviceOrientationCompassHeading>}
      */
     DeviceOrientation.getCurrentHeading = function () { return; };
     /**
      * Get the device current heading at a regular interval
      *
      * Stop the watch by unsubscribing from the observable
-     * @param {CompassOptions} options Options for compass. Frequency and Filter. Optional
-     * @returns {Observable<CompassHeading>} Returns an observable that contains the compass heading
+     * @param {DeviceOrientationCompassOptions} options Options for compass. Frequency and Filter. Optional
+     * @returns {Observable<DeviceOrientationCompassHeading>} Returns an observable that contains the compass heading
      */
     DeviceOrientation.watchHeading = function (options) { return; };
     __decorate([
@@ -4629,6 +4616,7 @@ var plugin_1 = require('./plugin');
  *   }).catch(e => console.error(e));
  *
  * ```
+ *
  */
 var Diagnostic = (function () {
     function Diagnostic() {
@@ -5006,17 +4994,9 @@ var Diagnostic = (function () {
         READ_EXTERNAL_STORAGE: 'READ_EXTERNAL_STORAGE',
         BODY_SENSORS: 'BODY_SENSORS'
     };
-    Diagnostic.permissionStatus = {
-        GRANTED: 'GRANTED',
-        GRANTED_WHEN_IN_USE: 'GRANTED_WHEN_IN_USE',
-        RESTRICTED: 'RESTRICTED',
-        DENIED: 'DENIED',
-        DENIED_ALWAYS: 'DENIED_ALWAYS',
-        NOT_REQUESTED: 'NOT_REQUESTED'
-    };
     Diagnostic.locationAuthorizationMode = {
-        ALWAYS: 'ALWAYS',
-        WHEN_IN_USE: 'WHEN_IN_USE'
+        ALWAYS: 'always',
+        WHEN_IN_USE: 'when_in_use'
     };
     Diagnostic.permissionGroups = {
         CALENDAR: ['READ_CALENDAR', 'WRITE_CALENDAR'],
@@ -5045,6 +5025,9 @@ var Diagnostic = (function () {
         POWERING_OFF: 'powering_off',
         POWERING_ON: 'powering_on'
     };
+    __decorate([
+        plugin_1.CordovaProperty
+    ], Diagnostic, "permissionStatus", void 0);
     __decorate([
         plugin_1.Cordova()
     ], Diagnostic, "isLocationAvailable", null);
@@ -5255,6 +5238,8 @@ var plugin_1 = require('./plugin');
  *
  *
  * ```
+ * @interfaces
+ * DialogsPromptCallback
  */
 var Dialogs = (function () {
     function Dialogs() {
@@ -5289,7 +5274,7 @@ var Dialogs = (function () {
      * @param {string} title Dialog title. (Optional, defaults to Prompt)
      * @param {Array<string>} buttonLabels  Array of strings specifying button labels. (Optional, defaults to ["OK","Cancel"])
      * @param {string} defaultText Default textbox input value.  (Optional, Default: empty string)
-     * @returns {Promise<any>} Returns a promise that resolves an object with the button index clicked and the text entered
+     * @returns {Promise<DialogsPromptCallback>} Returns a promise that resolves an object with the button index clicked and the text entered
      */
     Dialogs.prompt = function (message, title, buttonLabels, defaultText) {
         if (title === void 0) { title = 'Prompt'; }
@@ -5385,6 +5370,8 @@ var plugin_1 = require('./plugin');
  * EmailComposer.open(email);
  *
  * ```
+ * @interfaces
+ * EmailComposerOptions
  */
 var EmailComposer = (function () {
     function EmailComposer() {
@@ -5429,11 +5416,11 @@ var EmailComposer = (function () {
     /**
      * Displays the email composer pre-filled with data.
      *
-     * @param email {Email} Email
+     * @param options {EmailComposerOptions} Email
      * @param scope {any?} An optional scope for the promise
      * @returns {Promise<any>} Resolves promise when the EmailComposer has been opened
      */
-    EmailComposer.open = function (email, scope) { return; };
+    EmailComposer.open = function (options, scope) { return; };
     __decorate([
         plugin_1.Cordova()
     ], EmailComposer, "addAlias", null);
@@ -5471,6 +5458,8 @@ var plugin_1 = require('./plugin');
  * @description
  * This plugin enables communication between a phone and Estimote Beacons peripherals.
  *
+ * @interfaces
+ * EstimoteBeaconRegion
  */
 var EstimoteBeacons = (function () {
     function EstimoteBeacons() {
@@ -7277,6 +7266,10 @@ var plugin_1 = require('./plugin');
  * cd files
  * ls
  * ```
+ * @interfaces
+ * FileUploadOptions
+ * FileUploadResult
+ * FileTransferError
  */
 var Transfer = (function () {
     function Transfer() {
@@ -7454,6 +7447,77 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 var plugin_1 = require('./plugin');
 var Observable_1 = require('rxjs/Observable');
+/**
+ * @name Geofence
+ * @description Monitors circular geofences around latitude/longitude coordinates, and sends a notification to the user when the boundary of a geofence is crossed. Notifications can be sent when the user enters and/or exits a geofence.
+ * Geofences persist after device reboot. Geofences will be monitored even when the app is not running.
+ * @usage
+ * ```
+ * import { Geofence } from 'ionic-native';
+ * import { Platform } from  'ionic-angular'
+ * ...
+ *
+ * constructor(private platform: Platform) {
+ *   this.platform.ready().then(() => {
+         // initialize the plugin
+ *       Geofence.initialize().then(
+ *         // resolved promise does not return a value
+ *         () => console.log('Geofence Plugin Ready'),
+ *         (err) => console.log(err)
+ *       )
+ *   })
+ * }
+ *
+ * private addGeofence() {
+ *   //options describing geofence
+ *   let fence = {
+ *     id: "69ca1b88-6fbe-4e80-a4d4-ff4d3748acdb", //any unique ID
+ *     latitude:       37.285951, //center of geofence radius
+ *     longitude:      -121.936650,
+ *     radius:         100, //radius to edge of geofence
+ *     transitionType: 3, //see 'Transition Types' below
+ *     notification: { //notification settings
+ *         id:             1, //any unique ID
+ *         title:          "You crossed a fence", //notification title
+ *         text:           "You just arrived to Gliwice city center.", //notification body
+ *         openAppOnClick: true //open app when notification is tapped
+ *     }
+ *   }
+ *
+ *   Geofence.addOrUpdate(fence).then(
+ *      () => console.log('Geofence added'),
+ *      (err) => console.log('Geofence failed to add')
+ *    );
+ * }
+ *
+ * ```
+ * ### Transition Types ###
+ * Transition type specifies whether the geofence should trigger when the user enters and/or leaves the geofence.
+ *
+ * #### Supported values ####
+ * - 1: Enter
+ * - 2: Leave
+ * - 3: Both
+ *
+ * ### Defining a Geofence ###
+ * Geofences are defined by an object that is passed to `addOrUpdate()`. Object properties are:
+ * - id: Any unique ID for the geofence. This ID is used to remove and update a geofence
+ * - latitude: Latitude coordinate of the center of the geofence radius
+ * - longitude: Latitude coordinate of the center of the geofence radius
+ * - radius: Radius from the center to the edge of the geofence
+ * - transitionType: Type of geofence transition to monitor for. See 'Transition Types' above
+ * - notification: Object. Options for defining the notification sent when a geofence is crossed
+ *   - id: Any unique ID
+ *   - title: Notification title
+ *   - text: Notification body
+ *   - openAppOnClick: Boolean. Whether to open the app when the notification is tapped by the user
+ *
+ * ### Troubleshooting ###
+ * #### I get compile errors when I run `ionic build ios` or `ionic run ios`. ####
+ * This could be caused by the Cordova project directory in `/platforms/ios` not being named correctly.
+ * Try running `ionic platform rm <platform>` then run `ionic platform add <platform>` to recreate the
+ * platform directories.
+ */
 var Geofence = (function () {
     function Geofence() {
     }
@@ -9238,6 +9302,11 @@ var plugin_1 = require('./plugin');
  * });
  *
  * ```
+ * @interfaces
+ * HotspotConnectionInfo
+ * HotspotNetwork
+ * HotspotNetworkConfig
+ * HotspotDevice
  */
 var Hotspot = (function () {
     function Hotspot() {
@@ -9385,7 +9454,7 @@ var Hotspot = (function () {
      */
     Hotspot.getNetConfig = function () { return; };
     /**
-     * @returns {Promise<ConnectionInfo>}
+     * @returns {Promise<HotspotConnectionInfo>}
      */
     Hotspot.getConnectionInfo = function () { return; };
     /**
@@ -9711,6 +9780,8 @@ var plugin_1 = require('./plugin');
  * });
  *
  * ```
+ * @interfaces
+ * HttpdOptions
  */
 var Httpd = (function () {
     function Httpd() {
@@ -9782,7 +9853,7 @@ var Observable_1 = require('rxjs/Observable');
  * // Request permission to use location on iOS
  * IBeacon.requestAlwaysAuthorization();
  * // create a new delegate and register it with the native layer
- * let delegate = IBeacon.Delegate();
+ * let delegate = IBeacon.IBeaconDelegate();
  *
  * // Subscribe to some of the delegate's event handlers
  * delegate.didRangeBeaconsInRegion()
@@ -9810,6 +9881,13 @@ var Observable_1 = require('rxjs/Observable');
  *     error => console.error('Native layer failed to begin monitoring: ', error)
  *   );
  * ```
+ * @interfaces
+ * Beacon
+ * BeaconRegion
+ * CircularRegion
+ * IBeaconPluginResult
+ * IBeaconDelegate
+ *
  */
 var IBeacon = (function () {
     function IBeacon() {
@@ -9818,7 +9896,7 @@ var IBeacon = (function () {
      * Instances of this class are delegates between the {@link LocationManager} and
      * the code that consumes the messages generated on in the native layer.
      *
-     * @returns {Delegate} An instance of the type {@type Delegate}.
+     * @returns {IBeaconDelegate} An instance of the type {@type Delegate}.
      */
     IBeacon.Delegate = function () {
         var delegate = new cordova.plugins.locationManager.Delegate();
@@ -9895,29 +9973,29 @@ var IBeacon = (function () {
         return new cordova.plugins.locationManager.BeaconRegion(identifer, uuid, major, minor, notifyEntryStateOnDisplay);
     };
     /**
-     * @returns {Delegate} Returns the Delegate
+     * @returns {IBeaconDelegate} Returns the IBeaconDelegate
      */
     IBeacon.getDelegate = function () { return; };
     /**
-     * @param {Delegate} delegate An instance of a delegate to register with the native layer.
+     * @param {IBeaconDelegate} delegate An instance of a delegate to register with the native layer.
      *
-     * @returns {Delegate} Returns the Delegate
+     * @returns {IBeaconDelegate} Returns the IBeaconDelegate
      */
     IBeacon.setDelegate = function (delegate) { return; };
     /**
      * Signals the native layer that the client side is ready to consume messages.
-     * Readiness here means that it has a {Delegate} set by the consumer javascript
+     * Readiness here means that it has a {IBeaconDelegate} set by the consumer javascript
      * code.
      *
      * The {LocationManager.setDelegate()} will implicitly call this method as well,
      * therefore the only case when you have to call this manually is if you don't
-     * wish to specify a {Delegate} of yours.
+     * wish to specify a {IBeaconDelegate} of yours.
      *
      * The purpose of this signaling mechanism is to make the events work when the
      * app is being woken up by the Operating System to give it a chance to handle
      * region monitoring events for example.
      *
-     * If you don't set a {Delegate} and don't call this method manually, an error
+     * If you don't set a {IBeaconDelegate} and don't call this method manually, an error
      * message get emitted in the native runtime and the DOM as well after a certain
      * period of time.
      *
@@ -10081,7 +10159,7 @@ var IBeacon = (function () {
      * this application, it will be replaced with the new identifier.
      *
      * This call will accept a valid beacon even when no BlueTooth is available,
-     * and will start when BlueTooth is powered on. See {Delegate.}
+     * and will start when BlueTooth is powered on. See {IBeaconDelegate.}
      *
      * @param {Region} region An instance of {Region} which will be advertised
      * by the operating system.
@@ -10368,6 +10446,8 @@ var plugin_1 = require('./plugin');
  *  () => { console.log('Error occured'); }
  * )
  * ```
+ * @interfaces
+ * ImageResizerOptions
  */
 var ImageResizer = (function () {
     function ImageResizer() {
@@ -10417,6 +10497,8 @@ var Observable_1 = require('rxjs/Observable');
  * browser.insertCSS(...);
  * browser.close();
  * ```
+ * @interfaces
+ * InAppBrowserEvent
  */
 var InAppBrowser = (function () {
     /**
@@ -10958,6 +11040,8 @@ var plugin_1 = require('./plugin');
  *     error => console.log('Error launching navigator', error)
  *   );
  * ```
+ * @interfaces
+ * LaunchNavigatorOptions
  */
 var LaunchNavigator = (function () {
     function LaunchNavigator() {
@@ -11133,7 +11217,7 @@ var plugin_1 = require('./plugin');
  * // Schedule a single notification
  * LocalNotifications.schedule({
  *   id: 1,
- *   text: 'Single Notification',
+ *   text: 'Single ILocalNotification',
  *   sound: isAndroid? 'file://sound.mp3': 'file://beep.caf',
  *   data: { secret: key }
  * });
@@ -11142,38 +11226,39 @@ var plugin_1 = require('./plugin');
  * // Schedule multiple notifications
  * LocalNotifications.schedule([{
  *    id: 1,
- *    text: 'Multi Notification 1',
+ *    text: 'Multi ILocalNotification 1',
  *    sound: isAndroid ? 'file://sound.mp3': 'file://beep.caf',
  *    data: { secret:key }
  *   },{
  *    id: 2,
- *    title: 'Local Notification Example',
- *    text: 'Multi Notification 2',
+ *    title: 'Local ILocalNotification Example',
+ *    text: 'Multi ILocalNotification 2',
  *    icon: 'http://example.com/icon.png'
  * }]);
  *
  *
  * // Schedule delayed notification
  * LocalNotifications.schedule({
- *    text: 'Delayed Notification',
+ *    text: 'Delayed ILocalNotification',
  *    at: new Date(new Date().getTime() + 3600),
  *    led: 'FF0000',
  *    sound: null
  * });
  * ```
- *
+ * @interfaces
+ * ILocalNotification
  */
 var LocalNotifications = (function () {
     function LocalNotifications() {
     }
     /**
      * Schedules a single or multiple notifications
-     * @param options {Notification | Array<Notification>} optional
+     * @param options {Notification | Array<ILocalNotification>} optional
      */
     LocalNotifications.schedule = function (options) { };
     /**
      * Updates a previously scheduled notification. Must include the id in the options parameter.
-     * @param options {Notification} optional
+     * @param options {ILocalNotification} optional
      */
     LocalNotifications.update = function (options) { };
     /**
@@ -11234,34 +11319,34 @@ var LocalNotifications = (function () {
     /**
      * Get a notification object
      * @param notificationId {any} The id of the notification to get
-     * @returns {Promise<Notification>}
+     * @returns {Promise<ILocalNotification>}
      */
     LocalNotifications.get = function (notificationId) { return; };
     /**
      * Get a scheduled notification object
      * @param notificationId {any} The id of the notification to get
-     * @returns {Promise<Notification>}
+     * @returns {Promise<ILocalNotification>}
      */
     LocalNotifications.getScheduled = function (notificationId) { return; };
     /**
      * Get a triggered notification object
      * @param notificationId The id of the notification to get
-     * @returns {Promise<Notification>}
+     * @returns {Promise<ILocalNotification>}
      */
     LocalNotifications.getTriggered = function (notificationId) { return; };
     /**
      * Get all notification objects
-     * @returns {Promise<Array<Notification>>}
+     * @returns {Promise<Array<ILocalNotification>>}
      */
     LocalNotifications.getAll = function () { return; };
     /**
      * Get all scheduled notification objects
-     * @returns {Promise<Array<Notification>>}
+     * @returns {Promise<Array<ILocalNotification>>}
      */
     LocalNotifications.getAllScheduled = function () { return; };
     /**
      * Get all triggered notification objects
-     * @returns {Promise<Array<Notification>>}
+     * @returns {Promise<Array<ILocalNotification>>}
      */
     LocalNotifications.getAllTriggered = function () { return; };
     /**
@@ -11512,7 +11597,7 @@ var plugin_1 = require('./plugin');
  * @description
  * @usage
  * ```typescript
- * import { MediaCapture } from 'ionic-native';
+ * import { MediaCapture, MediaFile, CaptureError, CaptureImageOptions } from 'ionic-native';
  *
  *
  * let options: CaptureImageOptions = { limit: 3 };
@@ -11523,6 +11608,14 @@ var plugin_1 = require('./plugin');
  *   );
  *
  * ```
+ * @interfaces
+ * MediaFile
+ * MediaFileData
+ * CaptureError
+ * CaptureAudioOptions
+ * CaptureImageOptions
+ * CaptureVideoOptions
+ * ConfigurationData
  */
 var MediaCapture = (function () {
     function MediaCapture() {
@@ -12116,6 +12209,8 @@ var plugin_1 = require('./plugin');
  *
  *
  * ```
+ * @interfaces
+ * MusicControlsOptions
  */
 var MusicControls = (function () {
     function MusicControls() {
@@ -12312,9 +12407,9 @@ var plugin_1 = require('./plugin');
  *
  * @usage
  * ```
- * import {NativePageTransitions, TransitionOptions} from 'ionic-native';
+ * import {NativePageTransitions, NativeTransitionOptions} from 'ionic-native';
  *
- * let options: TransitionOptions = {
+ * let options: NativeTransitionOptions = {
  *    direction: 'up',
  *    duration: 500,
  *    slowdownfactor: 3,
@@ -12337,31 +12432,31 @@ var NativePageTransitions = (function () {
     }
     /**
      * Perform a slide animation
-     * @param options {TransitionOptions} Options for the transition
+     * @param options {NativeTransitionOptions} Options for the transition
      * @returns {Promise<any>}
      */
     NativePageTransitions.slide = function (options) { return; };
     /**
      * Perform a flip animation
-     * @param options {TransitionOptions} Options for the transition
+     * @param options {NativeTransitionOptions} Options for the transition
      * @returns {Promise<any>}
      */
     NativePageTransitions.flip = function (options) { return; };
     /**
      * Perform a fade animation
-     * @param options {TransitionOptions} Options for the transition
+     * @param options {NativeTransitionOptions} Options for the transition
      * @returns {Promise<any>}
      */
     NativePageTransitions.fade = function (options) { return; };
     /**
      * Perform a slide animation
-     * @param options {TransitionOptions} Options for the transition
+     * @param options {NativeTransitionOptions} Options for the transition
      * @returns {Promise<any>}
      */
     NativePageTransitions.drawer = function (options) { return; };
     /**
      * Perform a slide animation
-     * @param options {TransitionOptions} Options for the transition
+     * @param options {NativeTransitionOptions} Options for the transition
      * @returns {Promise<any>}
      */
     NativePageTransitions.curl = function (options) { return; };
@@ -12528,6 +12623,16 @@ var Network = (function () {
     function Network() {
     }
     /**
+     * Returns an observable to watch connection changes
+     * @return {Observable<any>}
+     */
+    Network.onchange = function () { return; };
+    /**
+     * Returns an observable to watch connection type changes
+     * @return {Observable<any>}
+     */
+    Network.ontypechange = function () { return; };
+    /**
      * Get notified when the device goes offline
      * @returns {Observable<any>} Returns an observable.
      */
@@ -12539,7 +12644,16 @@ var Network = (function () {
     Network.onConnect = function () { return; };
     __decorate([
         plugin_1.CordovaProperty
-    ], Network, "connection", void 0);
+    ], Network, "type", void 0);
+    __decorate([
+        plugin_1.CordovaProperty
+    ], Network, "downlinkMax", void 0);
+    __decorate([
+        plugin_1.CordovaFunctionOverride()
+    ], Network, "onchange", null);
+    __decorate([
+        plugin_1.CordovaFunctionOverride()
+    ], Network, "ontypechange", null);
     __decorate([
         plugin_1.Cordova({
             eventObservable: true,
@@ -12820,7 +12934,8 @@ var plugin_1 = require('./plugin');
  *
  * OneSignal.endInit();
  * ```
- *
+ * @interfaces
+ * OneSignalNotification
  */
 var OneSignal = (function () {
     function OneSignal() {
@@ -13623,7 +13738,7 @@ function wrapObservable(pluginObj, methodName, args, opts) {
             try {
                 if (opts.clearFunction) {
                     if (opts.clearWithArgs) {
-                        return util_1.get(window, pluginObj.pluginRef)[opts.clearFunction].apply(pluginObj, args);
+                        return callCordovaPlugin(pluginObj, opts.clearFunction, args, opts, observer.next.bind(observer), observer.error.bind(observer));
                     }
                     return util_1.get(window, pluginObj.pluginRef)[opts.clearFunction].call(pluginObj, pluginResult);
                 }
@@ -14017,6 +14132,8 @@ var plugin_1 = require('./plugin');
  *
  * Printer.print(content, options).then(onSuccess, onError);
  * ```
+ * @interfaces
+ * PrintOptions
  */
 var Printer = (function () {
     function Printer() {
@@ -14170,6 +14287,8 @@ var plugin_1 = require('./plugin');
  *     }
  *   );
  * ```
+ * @interfaces
+ * SafariViewControllerOptions
  */
 var SafariViewController = (function () {
     function SafariViewController() {
@@ -14627,6 +14746,9 @@ var plugin_1 = require('./plugin');
  * // Send a text message using default options
  * SMS.send('416123456', 'Hello world!');
  * ```
+ * @interfaces
+ * SmsOptions
+ * SmsOptionsAndroid
  */
 var SMS = (function () {
     function SMS() {
@@ -14645,7 +14767,10 @@ var SMS = (function () {
      */
     SMS.hasPermission = function () { return; };
     __decorate([
-        plugin_1.Cordova()
+        plugin_1.Cordova({
+            successIndex: 3,
+            errorIndex: 4
+        })
     ], SMS, "send", null);
     __decorate([
         plugin_1.Cordova({
@@ -14920,6 +15045,8 @@ var plugin_1 = require('./plugin');
  *
  * SpinnerDialog.hide();
  * ```
+ * @interfaces
+ * SpinnerDialogIOSOptions
  */
 var SpinnerDialog = (function () {
     function SpinnerDialog() {
@@ -15041,10 +15168,10 @@ var plugin_1 = require('./plugin');
  * })
  *   .then((db: SQLite) => {
  *
- *     db.executeSQL('create table danceMoves(name VARCHAR(32))').then(() => {}).catch(() => {});
+ *     db.executeSql('create table danceMoves(name VARCHAR(32))').then(() => {}).catch(() => {});
  *
  *   })
- *   .catch(error => console.error('Error openening database', error);
+ *   .catch(error => console.error('Error opening database', error);
  *
  *
  * // OPTION B: Create a new instance of SQLite
@@ -15522,6 +15649,9 @@ var plugin_1 = require('./plugin');
  * StreamingMedia.('https://path/to/video/stream', options);
  *
  * ```
+ * @interfaces
+ * StreamingVideoOptions
+ * StreamingAudioOptions
  */
 var StreamingMedia = (function () {
     function StreamingMedia() {
@@ -15601,6 +15731,8 @@ var plugin_1 = require('./plugin');
  *   .catch((reason: any) => console.log(reason));
  *
  * ```
+ * @interfaces
+ * TTSOptions
  */
 var TextToSpeech = (function () {
     function TextToSpeech() {
@@ -15716,6 +15848,9 @@ var Observable_1 = require('rxjs/Observable');
  *
  * ```
  * We suggest that you refer to the plugin's repository for additional information on usage that may not be covered here.
+ * @interfaces
+ * ThemeableBrowserButton
+ * ThemeableBrowserOptions
  */
 var ThemeableBrowser = (function () {
     function ThemeableBrowser(url, target, styleOptions) {
@@ -16092,6 +16227,8 @@ var plugin_1 = require('./plugin');
  *
  * TwitterConnect.logout().then(onLogoutSuccess, onLogoutError);
  * ```
+ * @interfaces
+ * TwitterConnectResponse
  */
 var TwitterConnect = (function () {
     function TwitterConnect() {
@@ -16217,6 +16354,12 @@ var plugin_1 = require('./plugin');
  * .catch((error: any) => console.log('video transcode error', error));
  *
  * ```
+ * @interfaces
+ * TranscodeOptions
+ * TrimOptions
+ * CreateThumbnailOptions
+ * GetVideoInfoOptions
+ * VideoInfo
  */
 var VideoEditor = (function () {
     function VideoEditor() {
@@ -16318,6 +16461,8 @@ var plugin_1 = require('./plugin');
  * });
  *
  * ```
+ * @interfaces
+ * VideoOptions
  */
 var VideoPlayer = (function () {
     function VideoPlayer() {
@@ -16525,17 +16670,8 @@ var plugin_1 = require('./plugin');
  *
  * ```
  *
- * @advanced
- * zBar options
- *
- * | Option             | Type      | Values                    | Defaults                                                    |
- * |--------------------|-----------|-----------------------------------------------------------------------------------------|
- * | text_title         |`string?`  |                           | `"Scan QR Code"` (Android only)                             |
- * | text_instructions  |`string?`  |                           | `"Please point your camera at the QR code."` (Android only) |
- * | camera             |`string?`  | `"front"`, `"back"`,      | `"back"`                                                    |
- * | flash              |`string?`  | `"on"`, `"off"`, `"auto"` | `"auto"`                                                    |
- * | drawSight          |`boolean?` | `true`, `false`           | `true` (Draws red line in center of scanner)                |
- *
+ * @interfaces
+ * ZBarOptions
  */
 var ZBar = (function () {
     function ZBar() {

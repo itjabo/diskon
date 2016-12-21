@@ -1,7 +1,7 @@
 <ion-view title="ENTERTAINMENT" id="page9">
   <ion-content padding="true" class="has-header">
     <ion-list id="gayaHidup-list8">
-      <ion-item class="item-thumbnail-left" id="gayaHidup-list-item20" ui-sref="menu.detailMerchant" ng-repeat="x in myData">
+      <ion-item class="item-thumbnail-left" id="gayaHidup-list-item20" ng-repeat="x in myData" ng-click="Link(x.kode)">
         <img src="img/qQophN8eR2mJcENUyjWx_hot1.jpg">
         <h2>{{x.nama_merchant}}</h2>
         <p style="white-space:normal;">{{x.alamat}}</p>
